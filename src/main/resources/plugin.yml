@@ -1,0 +1,34 @@
+name: DumbProtection
+main: com.turt2live.dumbprotection.DumbProtection
+version: maven-version-number
+description: I hate downloading plugins.
+author: turt2live
+website: http://github.com/turt2live/DumbProtection
+build: jenkins-build-number
+commands:
+    protect:
+        aliases: [lock]
+        usage: /<command> [list | add <player> | remove <player>]
+        description: Protection command
+permissions:
+    protect.lock:
+        default: true
+        description: Allows /protect (no arguments)
+    protect.add:
+        default: true
+        description: Allows /protect add on their own protections
+    protect.add.others:
+        default: op
+        description: Allows /protect add on any protections
+    protect.remove:
+        default: true
+        description: Allows /protect remove on their own protections
+    protect.remove.others:
+        default: op
+        description: Allows /protect remove on any protections
+    protect.list:
+        default: true
+        description: Allows /protect list on their own protections
+    protect.list.others:
+        default: op
+        description: Allows /protect list on any protections
