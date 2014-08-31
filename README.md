@@ -18,6 +18,8 @@ Commands
 
 `/protect list` - Lists all the players on the targeted block
 
+`/protect delete` - Deletes the targeted protection
+
 
 Permissions
 ------
@@ -30,11 +32,15 @@ Permissions
 
 `protect.list` - Allows /protect list on their own protections
 
+`protect.delete` - Allows /protect delete on their own protections
+
 `protect.add.others` - Allows /protect add <player> on any protections
 
 `protect.remove.others` - Allows /protect remove <player> on any protections
 
 `protect.list.others` - Allows /protect list on any protections
+
+`protect.delete.others` - Allows /protect delete on any protections
 
 
 Background

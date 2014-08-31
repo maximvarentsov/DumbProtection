@@ -159,10 +159,25 @@ public class DumbProtection extends DumbPlugin {
                     if (players.size() == 0)
                         sendMessage(sender, ChatColor.YELLOW + "" + ChatColor.ITALIC + "  No one");
                 }
+            } else if (args[0].equalsIgnoreCase("delete")) {
+                if (!player.hasPermission("protect.delete")) {
+                    sendMessage(sender, ChatColor.RED + "You do not have permission to do that!");
+                    return true;
+                }
+
+                Protection existing = manager.getProtection(target);
+                if (existing == null || (!existing.getOwner().equals(player.getUniqueId()) && !player.hasPermission("protect.delete.others"))) {
+                    sendMessage(sender, ChatColor.RED + "There is no protection there or you do not have permission to view it.");
+                } else {
+                    existing.delete();
+                    save();
+                    sendMessage(sender, ChatColor.GREEN + "Protection removed!");
+                }
             } else if (args[0].equalsIgnoreCase("help")) {
                 sendMessage(sender, ChatColor.AQUA + "/protect lock" + ChatColor.GRAY + " - " + ChatColor.AQUA + "Locks your current targeted block to you");
                 sendMessage(sender, ChatColor.AQUA + "/protect add <player>" + ChatColor.GRAY + " - " + ChatColor.AQUA + "Adds a player to the targeted protection");
                 sendMessage(sender, ChatColor.AQUA + "/protect remove <player>" + ChatColor.GRAY + " - " + ChatColor.AQUA + "Removes a player from the targeted protection");
+                sendMessage(sender, ChatColor.AQUA + "/protect delete" + ChatColor.GRAY + " - " + ChatColor.AQUA + "Deletes the targeted protection");
                 sendMessage(sender, ChatColor.AQUA + "/protect list" + ChatColor.GRAY + " - " + ChatColor.AQUA + "Lists all the players on the targeted protection");
             } else {
                 sendMessage(sender, ChatColor.RED + "Unknown command. Try " + ChatColor.YELLOW + "/protect help");
