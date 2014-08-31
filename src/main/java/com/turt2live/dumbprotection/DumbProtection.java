@@ -190,7 +190,7 @@ public class DumbProtection extends DumbPlugin {
     }
 
     public void sendMessage(CommandSender sender, String message) {
-        sender.sendMessage((ChatColor.translateAlternateColorCodes('&', getConfig().getString("prefix", ChatColor.GRAY + "[DumbCoin]")) + " " + ChatColor.WHITE + message).trim());
+        sender.sendMessage((ChatColor.translateAlternateColorCodes('&', getConfig().getString("prefix", ChatColor.GRAY + "[DumbProtection]")) + " " + ChatColor.WHITE + message).trim());
     }
 
     public static DumbProtection getInstance() {
