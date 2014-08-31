@@ -3,6 +3,6 @@
 prefix: '&7[DumbProtection]'
 valid-blocks:
 - CHEST
-- LOCKED_CHEST
-- WOOD_DOOR
-- IRON_DOOR
+- TRAPPED_CHEST
+- WOODEN_DOOR
+- IRON_DOOR_BLOCK
