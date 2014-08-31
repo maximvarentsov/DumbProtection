@@ -18,9 +18,14 @@
 package com.turt2live.dumbprotection;
 
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.Chest;
+import org.bukkit.block.DoubleChest;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.material.Bed;
+import org.bukkit.material.Door;
 
 import java.io.File;
 import java.io.IOException;
@@ -49,6 +54,7 @@ public class LockManager {
 
     public Protection getProtection(Block location) {
         if (location == null) throw new IllegalArgumentException();
+        location = findLowerBlock(location);
         String id = location.getX() + "," + location.getY() + "," + location.getZ() + "," + location.getWorld().getName();
         if (file.contains(id)) {
             return new Protection(this, id);
@@ -56,8 +62,28 @@ public class LockManager {
         return null;
     }
 
+    private Block findLowerBlock(Block chosen) {
+        if (chosen.getState() instanceof Chest) {
+            Chest chest = (Chest) chosen.getState();
+            if (chest.getInventory().getHolder() instanceof DoubleChest) {
+                DoubleChest holder = (DoubleChest) chest.getInventory().getHolder();
+                return ((Chest) holder.getLeftSide()).getBlock();
+            }
+        } else if (chosen.getState().getData() instanceof Door) {
+            Door door = (Door) chosen.getState().getData();
+            if (door.isTopHalf())
+                return chosen.getRelative(BlockFace.DOWN);
+        } else if (chosen.getState().getData() instanceof Bed) {
+            Bed bed = (Bed) chosen.getState().getData();
+            if (!bed.isHeadOfBed())
+                return chosen.getRelative(bed.getFacing());
+        }
+        return chosen;
+    }
+
     public Protection add(Block location, UUID owner) {
         if (location == null || owner == null) throw new IllegalArgumentException();
+        location = findLowerBlock(location);
         String id = location.getX() + "," + location.getY() + "," + location.getZ() + "," + location.getWorld().getName();
         file.set(id + ".owner", owner.toString());
 
