@@ -18,6 +18,7 @@
 package com.turt2live.dumbprotection;
 
 import com.turt2live.commonsense.DumbPlugin;
+import com.turt2live.uuid.CachingServiceProvider;
 import com.turt2live.uuid.PlayerRecord;
 import com.turt2live.uuid.ServiceProvider;
 import com.turt2live.uuid.turt2live.v2.ApiV2Service;
@@ -45,7 +46,7 @@ public class DumbProtection extends DumbPlugin {
 
         //initCommonSense(72122);
 
-        uuidProvider = new ApiV2Service();
+        uuidProvider = new CachingServiceProvider(new ApiV2Service());
 
         try {
             manager = new LockManager();
