@@ -42,6 +42,7 @@ Permissions
 
 `protect.delete.others` - Allows /protect delete on any protections
 
+`protect.bypass` - Allows the target to bypass protections
 
 Background
 ------

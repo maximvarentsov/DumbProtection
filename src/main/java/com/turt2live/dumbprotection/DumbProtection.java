@@ -54,6 +54,8 @@ public class DumbProtection extends DumbPlugin {
         } catch (InvalidConfigurationException e) {
             e.printStackTrace();
         }
+
+        getServer().getPluginManager().registerEvents(new ProtectionListener(manager), this);
     }
 
     @Override

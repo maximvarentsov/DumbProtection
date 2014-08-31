@@ -8,7 +8,7 @@ build: jenkins-build-number
 commands:
     protect:
         aliases: [lock]
-        usage: /<command> [list | add <player> | remove <player>]
+        usage: /<command> [list | delete | add <player> | remove <player>]
         description: Protection command
 permissions:
     protect.lock:
@@ -32,3 +32,12 @@ permissions:
     protect.list.others:
         default: op
         description: Allows /protect list on any protections
+    protect.delete:
+        default: true
+        description: Allows /protect delete on their own protections
+    protect.delete.others:
+        default: op
+        description: Allows /protect delete on any protections
+    protect.bypass:
+        default: op
+        description: Allows the target to bypass protections
