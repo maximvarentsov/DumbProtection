@@ -23,6 +23,7 @@ import com.turt2live.uuid.PlayerRecord;
 import com.turt2live.uuid.ServiceProvider;
 import com.turt2live.uuid.turt2live.v2.ApiV2Service;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -82,14 +83,17 @@ public class DumbProtection extends DumbPlugin {
 
         Player player = (Player) sender;
         Block target = player.getTargetBlock(null, 6);
-        if (target == null) {
-            sendMessage(sender, ChatColor.RED + "You do not have a target block!");
-            return true;
-        }
+        if (args.length < 1 || !args[0].equalsIgnoreCase("help"))
+            if (target == null || target.getType() == Material.AIR) {
+                sendMessage(sender, ChatColor.RED + "You do not have a target block!");
+                return true;
+            }
+        Protection existing = null;
+        if (target != null) existing = manager.getProtection(target);
 
         if (args.length == 0) {
             List<String> valid = getConfig().getStringList("valid-blocks");
-            if (sender.hasPermission("protect.lock") && valid != null && valid.contains(target.getType().name())) {
+            if (sender.hasPermission("protect.lock") && valid != null && valid.contains(target.getType().name()) && existing == null) {
                 manager.add(target, player.getUniqueId());
                 save();
                 sendMessage(sender, ChatColor.GREEN + "You have protected that block");
@@ -106,7 +110,6 @@ public class DumbProtection extends DumbPlugin {
                     return true;
                 }
 
-                Protection existing = manager.getProtection(target);
                 if (existing == null || (!existing.getOwner().equals(player.getUniqueId()) && !player.hasPermission("protect.add.others"))) {
                     sendMessage(sender, ChatColor.RED + "There is no protection there or you do not have permission to edit it.");
                 } else {
@@ -130,7 +133,6 @@ public class DumbProtection extends DumbPlugin {
                     return true;
                 }
 
-                Protection existing = manager.getProtection(target);
                 if (existing == null || (!existing.getOwner().equals(player.getUniqueId()) && !player.hasPermission("protect.remove.others"))) {
                     sendMessage(sender, ChatColor.RED + "There is no protection there or you do not have permission to edit it.");
                 } else {
@@ -149,7 +151,6 @@ public class DumbProtection extends DumbPlugin {
                     return true;
                 }
 
-                Protection existing = manager.getProtection(target);
                 if (existing == null || (!existing.getOwner().equals(player.getUniqueId()) && !existing.getPlayers().contains(player.getUniqueId()) && !player.hasPermission("protect.list.others"))) {
                     sendMessage(sender, ChatColor.RED + "There is no protection there or you do not have permission to view it.");
                 } else {
@@ -168,7 +169,6 @@ public class DumbProtection extends DumbPlugin {
                     return true;
                 }
 
-                Protection existing = manager.getProtection(target);
                 if (existing == null || (!existing.getOwner().equals(player.getUniqueId()) && !player.hasPermission("protect.delete.others"))) {
                     sendMessage(sender, ChatColor.RED + "There is no protection there or you do not have permission to view it.");
                 } else {
