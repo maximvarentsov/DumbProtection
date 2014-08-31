@@ -45,7 +45,7 @@ public class DumbProtection extends DumbPlugin {
         instance = this;
         saveDefaultConfig();
 
-        //initCommonSense(72122);
+        initCommonSense(84600);
 
         uuidProvider = new CachingServiceProvider(new ApiV2Service());
 
