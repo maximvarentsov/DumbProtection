@@ -150,7 +150,7 @@ public class DumbProtection extends DumbPlugin {
                 }
 
                 Protection existing = manager.getProtection(target);
-                if (existing == null || (!existing.getOwner().equals(player.getUniqueId()) && !player.hasPermission("protect.list.others"))) {
+                if (existing == null || (!existing.getOwner().equals(player.getUniqueId()) && !existing.getPlayers().contains(player.getUniqueId()) && !player.hasPermission("protect.list.others"))) {
                     sendMessage(sender, ChatColor.RED + "There is no protection there or you do not have permission to view it.");
                 } else {
                     List<UUID> players = existing.getPlayers();
